@@ -118,6 +118,33 @@ body.presentation .option{padding:17px}
 body.presentation .right-col{top:90px}
 @media(max-width:1120px){.layout{grid-template-columns:190px minmax(0,1fr)}.right-col{grid-column:2;position:static;grid-template-columns:1fr 1fr}.main-card{min-height:0}}
 @media(max-width:760px){.topbar{height:62px}.pill{display:none}.hero{display:block}.hero-stats{margin-top:18px}.layout{grid-template-columns:1fr}.sidebar{position:static;padding:12px}.level-list{display:flex;overflow:auto}.level-btn{min-width:130px}.progress-box{margin-top:12px}.right-col{grid-column:1;grid-template-columns:1fr}.block-groups{grid-template-columns:1fr}.main-card{padding:17px}.hero h1{font-size:36px}.top-actions .ghost-btn{font-size:11px;padding:8px}.stat{min-width:90px}.footer{display:block}.footer span{display:block;margin-top:5px}}
+
+.builder-options{display:block}
+.builder-panel{border:1px solid #dfe5df;border-radius:16px;background:#fbfcf8;padding:16px}
+.builder-panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.builder-panel-head b{font-size:13px}
+.builder-panel-head span,.builder-footnote{font-size:10px;color:#7d8989}
+.builder-expression{display:flex;align-items:center;gap:7px;flex-wrap:wrap;background:#fff;border:1px dashed #cbd8d1;border-radius:13px;padding:14px;min-height:68px}
+.builder-term{font:700 13px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;color:#28465a;overflow-wrap:anywhere}
+.symbol-slot{min-width:76px;min-height:38px;border:1.5px dashed #8ea7b3;border-radius:10px;background:#edf4f6;color:#315c70;font-weight:900;font-family:ui-monospace,monospace;padding:7px 10px}
+.symbol-slot.filled{border-style:solid;background:#e4f0e7;border-color:#a7c9af;color:#2e6545;font-size:16px}
+.symbol-slot.active{outline:3px solid rgba(67,117,139,.22);border-color:#416f86;background:#e4eff4}
+.symbol-slot.right{border-color:#6da780;background:#e5f2e7;color:#2e6545}
+.symbol-slot.wrong{border-color:#d58c80;background:#fff0ec;color:#a24e43}
+.builder-status{font-size:11px;color:#5e7075;margin:10px 0 13px;min-height:18px}
+.symbol-bank-title{font-size:11px;font-weight:900;margin-bottom:8px;color:#53646a}
+.symbol-bank{display:flex;gap:8px;flex-wrap:wrap}
+.symbol-btn{min-width:54px;border:1px solid #d9e1dc;border-radius:10px;padding:10px 13px;background:#fff;color:#25465b;font:900 15px ui-monospace,SFMono-Regular,Consolas,monospace;box-shadow:0 2px 0 #e7ece7}
+.symbol-btn:hover{background:#edf4f6;border-color:#91acb8;transform:translateY(-1px)}
+.builder-footnote{margin-top:12px;line-height:1.6}
+.level-btn.locked{opacity:.42;cursor:not-allowed}
+.level-btn.locked:hover{background:transparent}
+body.presentation .builder-panel{padding:22px}
+body.presentation .builder-term{font-size:17px}
+body.presentation .symbol-slot{min-width:90px;min-height:48px;font-size:15px}
+body.presentation .symbol-btn{font-size:19px;min-width:65px;padding:13px 17px}
+@media(max-width:760px){.builder-panel{padding:12px}.builder-expression{gap:5px;padding:10px}.builder-term{font-size:11px}.symbol-slot{min-width:60px}.builder-panel-head{align-items:flex-start;flex-direction:column}}
+
 </style>
 </head>
 <body>
@@ -128,7 +155,7 @@ body.presentation .right-col{top:90px}
 <main class="page">
   <section class="hero">
     <div><div class="eyebrow">BUILD A BETTER SEARCH STRATEGY</div><h1>把检索式，搭成一座积木。</h1><p>NPC 发布学术检索任务，你负责选择关键词、逻辑符号与字段。每一次选择，都会帮你看懂检索范围为什么变大或变小。</p></div>
-    <div class="hero-stats"><div class="stat"><strong id="score">0</strong><span>累计积分</span></div><div class="stat"><strong id="completed">0 / 6</strong><span>完成关卡</span></div><div class="stat"><strong id="accuracy">—</strong><span>当前正确率</span></div></div>
+    <div class="hero-stats"><div class="stat"><strong id="score">0</strong><span>累计积分</span></div><div class="stat"><strong id="completed">0 / 12</strong><span>完成关卡</span></div><div class="stat"><strong id="accuracy">—</strong><span>当前正确率</span></div></div>
   </section>
   <section class="layout">
     <aside class="panel sidebar">
@@ -164,7 +191,7 @@ body.presentation .right-col{top:90px}
   </section>
   <div class="footer"><span>检索积木实验室 · 信息检索课程互动练习</span><span>本页面为教学演示工具，不连接知网、万方或维普数据库。</span></div>
 </main>
-<div class="modal-backdrop" id="modal"><div class="modal"><h3>怎么玩？</h3><p>① 阅读 NPC 的检索需求。② 观察关键词积木，把同义词和不同概念分清。③ 选择一条检索式并提交。④ 看解析，理解为什么正确或错误。⑤ 完成六关，掌握从通用布尔检索式到知网专业检索式的转换。</p><p><b>投屏建议：</b>点击右上角「投屏模式」放大文字；先让同学讨论，再提交答案展示解析。所有判题均在浏览器本地完成，不调用 AI 服务。</p><div class="modal-actions"><button class="primary-btn" id="closeModal">开始闯关</button></div></div></div>
+<div class="modal-backdrop" id="modal"><div class="modal"><h3>怎么玩？</h3><p>① 阅读 NPC 的检索需求。② 观察关键词积木，把同义词和不同概念分清。③ 前六关选择正确检索式；后六关点击空位，再选择逻辑符号，亲手搭建检索式。④ 提交后查看解析，理解为什么正确或错误。⑤ 完成前六关后解锁符号搭建挑战，亲手选择 +、*、-、AND、OR、NOT 和括号，完成十二关。</p><p><b>投屏建议：</b>点击右上角「投屏模式」放大文字；先让同学讨论，再提交答案展示解析。所有判题均在浏览器本地完成，不调用 AI 服务。</p><div class="modal-actions"><button class="primary-btn" id="closeModal">开始闯关</button></div></div></div>
 <script>
 const levels = [
 {
@@ -257,25 +284,165 @@ mistake:"不要把所有词一股脑用 AND 连起来。那会要求一篇文献
 key:"对象 AND (主题表达 A OR 主题表达 B) AND (角度表达 A OR 角度表达 B)。",
 hint:"先数清楚有几个概念模块，再分别判断模块内部和模块之间的关系。"
 }
+,
+{
+title:"同一字段的同义词：用 + 连接",type:"符号搭建 1",kicker:"MISSION 07 · SAME-FIELD OR",goal:"在知网专业检索中，识别同一字段内的同义表达，并用 + 表示逻辑或。",
+npc:"请检索篇名中提到 ChatGPT 或大语言模型的文献。两种表达出现任意一种就可以。",
+desc:"这两个词都在篇名字段 TI 中，而且是同一概念的不同表达。点击检索式中的空位，再从下方符号工具箱选择运算符。",
+groups:[{name:"篇名字段 TI · 同义表达",tone:"blue",words:["ChatGPT","大语言模型"]}],
+builder:{
+parts:[{text:"TI='ChatGPT'"},{slot:"s1"},{text:"TI='大语言模型'"}],
+slots:[{id:"s1",label:"同一字段内的同义词连接符",answer:"+",choices:["+","*","-","AND"]}]
+},
+explain:"两个词都属于篇名字段 TI，表达的是同一个研究概念。只要出现其中一个就符合要求，所以同一字段内用 + 表示逻辑或。这里的 + 相当于通用布尔检索中的 OR。",
+mistake:"如果选 *，就要求两个表达同时出现，可能漏掉只写 ChatGPT 或只写“大语言模型”的论文。AND 是跨字段连接符，不适合在这里替代同字段运算符。",
+key:"同一字段内的同义表达 → +（相当于 OR）。",
+hint:"想一想：一篇论文只写 ChatGPT，没有写“大语言模型”，你希望它被检索出来吗？"
+},
+{
+title:"同一字段的两个概念：用 * 连接",type:"符号搭建 2",kicker:"MISSION 08 · SAME-FIELD AND",goal:"理解同一检索字段内，两个不同概念都必须出现时使用 *。",
+npc:"我想找主题中同时讨论“图书馆”和“知识服务”的文献。两个概念缺一不可。",
+desc:"两个检索词都放在主题字段 SU 中，但它们不是同义词，而是研究问题中的两个不同概念。请选择合适的符号。",
+groups:[{name:"主题字段 SU · 两个不同概念",tone:"green",words:["图书馆","知识服务"]}],
+builder:{
+parts:[{text:"SU='图书馆'"},{slot:"s1"},{text:"SU='知识服务'"}],
+slots:[{id:"s1",label:"同一字段内的概念连接符",answer:"*",choices:["+","*","-","AND"]}]
+},
+explain:"“图书馆”和“知识服务”是两个不同概念，题目要求它们同时出现。由于两个条件处于同一字段 SU，因此使用 * 表示逻辑与。它相当于通用布尔检索中的 AND。",
+mistake:"如果选 +，只出现图书馆或只出现知识服务的文献也会被检出，范围会变宽，不符合“两个概念都要有”的要求。",
+key:"同一字段内的不同概念，要求同时出现 → *（相当于 AND）。",
+hint:"把题目里的“同时讨论”“并且”圈出来，它提示你要找两个概念都出现的文献。"
+},
+{
+title:"排除不需要的主题：用 -",type:"符号搭建 3",kicker:"MISSION 09 · SAME-FIELD NOT",goal:"理解同一字段内的排除关系，以及 NOT 的谨慎使用。",
+npc:"我想检索主题涉及图书馆的文献，但希望排除主要讨论旅游景区的内容。",
+desc:"检索目标是保留“图书馆”，同时排除“旅游”这一类不需要的主题。两个词都在主题字段 SU 中。",
+groups:[{name:"主题字段 SU · 保留与排除",tone:"gold",words:["保留：图书馆","排除：旅游"]}],
+builder:{
+parts:[{text:"SU='图书馆'"},{slot:"s1"},{text:"SU='旅游'"}],
+slots:[{id:"s1",label:"同一字段内的排除符号",answer:"-",choices:["+","*","-","NOT"]}]
+},
+explain:"题目要求保留包含“图书馆”的结果，同时排除包含“旅游”的结果。同一字段内按课堂讲解的知网专业检索规则使用 - 表示逻辑非。它相当于通用布尔检索中的 NOT。",
+mistake:"+ 会把旅游主题也纳入；* 会要求两个词同时出现，而不是排除旅游。排除词要谨慎选择，避免把有价值的交叉研究一并删掉。",
+key:"同一字段内排除某个表达 → -（相当于 NOT）。",
+hint:"题目中的关键词是“排除”，不是“同时出现”，也不是“任意一个即可”。"
+},
+{
+title:"跨字段满足其一：用 OR",type:"符号搭建 4",kicker:"MISSION 10 · CROSS-FIELD OR",goal:"区分同一字段内的 + 与不同字段之间的 OR。",
+npc:"我想找篇名中出现“ChatGPT”，或者关键词中出现“图书馆”的文献。两个条件满足任意一个就可以。",
+desc:"第一个条件在篇名字段 TI，第二个条件在关键词字段 KY。因为跨了字段，而且题目说满足其一即可，请选择连接符。",
+groups:[{name:"字段一 · 篇名 TI",tone:"blue",words:["ChatGPT"]},{name:"字段二 · 关键词 KY",tone:"green",words:["图书馆"]}],
+builder:{
+parts:[{text:"TI='ChatGPT'"},{slot:"s1"},{text:"KY='图书馆'"}],
+slots:[{id:"s1",label:"跨字段的逻辑连接符",answer:"OR",choices:["AND","OR","NOT","*"]}]
+},
+explain:"TI 和 KY 是不同字段。题目要求篇名条件或关键词条件满足其中一个即可，因此跨字段使用 OR。注意：这里不能因为语义上是“或者”就写 +；按课堂讲解的专业检索规则，跨字段要使用 OR。",
+mistake:"AND 会要求两个字段条件同时成立，缩小结果范围；* 是同一字段内的逻辑与符号，不用于连接 TI 与 KY。",
+key:"不同字段之间，满足其一 → OR；满足全部 → AND。",
+hint:"先判断字段：TI 和 KY 不一样。再看关系：题目说满足任意一个即可。"
+},
+{
+title:"括号要放在哪里？亲手完成分组",type:"符号搭建 5",kicker:"MISSION 11 · PARENTHESES",goal:"通过选择左右括号，明确同义词组先组合、再与另一个概念连接。",
+npc:"请检索主题中包含“ChatGPT 或大语言模型”，并且主题中还包含“图书馆”的文献。把前两个同义表达先圈成一组。",
+desc:"检索式中的 OR 已经确定。现在请在正确的位置放入英文半角左括号和右括号，让两个同义词先组成一个整体。",
+groups:[{name:"同义词组",tone:"blue",words:["ChatGPT","OR","大语言模型"]},{name:"另一个必要概念",tone:"green",words:["图书馆"]}],
+builder:{
+parts:[{text:"SU="},{slot:"s1"},{text:"'ChatGPT' OR '大语言模型'"},{slot:"s2"},{text:"AND SU='图书馆'"}],
+slots:[
+{id:"s1",label:"同义词组前面的括号",answer:"(",choices:["(",")","+","*"]},
+{id:"s2",label:"同义词组后面的括号",answer:")",choices:["(",")","+","*"]}
+]
+},
+explain:"左括号放在同义词组前面，右括号放在同义词组后面，形成 ( 'ChatGPT' OR '大语言模型' )。这样检索系统会先把两个同义表达作为一组，再通过 AND 与图书馆这一概念连接。",
+mistake:"括号不能随意放在 AND 两边，也不能把图书馆放进同义词组。括号的任务是明确哪几个词属于同一组。",
+key:"先用 ( ) 圈出同义词组，再用 AND 连接不同概念组。",
+hint:"你要圈起来的是“ChatGPT OR 大语言模型”，而不是后面的“图书馆”。"
+},
+{
+title:"终极挑战：小麦抗旱研究检索式",type:"符号搭建 · 综合实战",kicker:"MISSION 12 · FINAL BUILDER",goal:"综合运用 +、* 与括号，完成多概念、多同义表达的检索式搭建。",
+npc:"我想检索小麦抗旱研究，主题中可以写“抗旱”或“耐旱”；研究角度可以是“生理”或“生化”。请你把三个概念模块组合起来。",
+desc:"所有词都在主题字段 SU 中。小麦、抗旱/耐旱、生理/生化是三个必要模块；两个斜线组内部是替代表达。请逐个空位选择符号。",
+groups:[{name:"研究对象",tone:"blue",words:["小麦"]},{name:"研究主题 · 二选一",tone:"green",words:["抗旱","耐旱"]},{name:"研究角度 · 二选一",tone:"gold",words:["生理","生化"]}],
+builder:{
+parts:[
+{text:"SU=('小麦'"},{slot:"s1"},{text:"('抗旱'"},{slot:"s2"},{text:"'耐旱')"},
+{slot:"s3"},{text:"('生理'"},{slot:"s4"},{text:"'生化'))"}
+],
+slots:[
+{id:"s1",label:"研究对象与研究主题之间",answer:"*",choices:["+","*","-"]},
+{id:"s2",label:"抗旱与耐旱之间",answer:"+",choices:["+","*","-"]},
+{id:"s3",label:"研究主题与研究角度之间",answer:"*",choices:["+","*","-"]},
+{id:"s4",label:"生理与生化之间",answer:"+",choices:["+","*","-"]}
+]
+},
+explain:"完整检索式为 SU=('小麦' * ('抗旱' + '耐旱') * ('生理' + '生化'))。小麦是研究对象，必须出现；抗旱与耐旱是同一主题的不同表达，用 +；生理与生化是研究角度的不同表达，也用 +。三个概念模块都必须满足，所以模块之间用 *。括号确保同义词先在组内组合。",
+mistake:"如果把组内的 + 改成 *，就会要求文献同时写出抗旱和耐旱、同时写出生理和生化，可能漏掉大量只使用一种表达的研究。如果把模块之间的 * 改成 +，就会检出只谈小麦、只谈抗旱或只谈生理的文献。",
+key:"对象 * (主题A + 主题B) * (角度A + 角度B)。先组内 OR，再模块间 AND。",
+hint:"先看“抗旱/耐旱”和“生理/生化”：斜线代表替代表达；再看小麦、主题、角度三个模块是否都必须出现。"
+}
+
 ];
-let current=0,selected=null,checked=false,score=0,attempts=0;
+let current=0,selected=null,checked=false,score=0,attempts=0,builderValues={},selectedSlot=null,builderChecked=false;
 const completed=new Array(levels.length).fill(false);
 const tries=new Array(levels.length).fill(0);
 const $=id=>document.getElementById(id);
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function renderNav(){
-  $('levelList').innerHTML=levels.map((l,i)=>'<button class="level-btn '+(i===current?'active ':'')+(completed[i]?'done':'')+'" data-level="'+i+'"><span class="level-num">'+(completed[i]?'✓':String(i+1).padStart(2,'0'))+'</span><span class="level-name">'+esc(l.title)+'<small>'+esc(l.type)+'</small></span></button>').join('');
+  const done=completed.filter(Boolean).length;
+  $('levelList').innerHTML=levels.map((l,i)=>{
+    const locked=i>=6 && i>done;
+    return '<button class="level-btn '+(i===current?'active ':'')+(completed[i]?'done ':'')+(locked?'locked':'')+'" data-level="'+i+'" '+(locked?'disabled':'')+'><span class="level-num">'+(completed[i]?'✓':String(i+1).padStart(2,'0'))+'</span><span class="level-name">'+esc(l.title)+'<small>'+esc(l.type)+(locked?' · 完成前序关卡后解锁':'')+'</small></span></button>';
+  }).join('');
   document.querySelectorAll('[data-level]').forEach(b=>b.addEventListener('click',()=>go(Number(b.dataset.level))));
 }
+function builderMarkup(l){
+  const b=l.builder;
+  const parts=b.parts.map(p=>{
+    if(p.slot){
+      const value=builderValues[p.slot]||'';
+      const active=selectedSlot===p.slot?' active':'';
+      const result=builderChecked?(value===b.slots.find(s=>s.id===p.slot).answer?' right':' wrong'):'';
+      return '<button class="symbol-slot'+(value?' filled':'')+active+result+'" data-slot="'+p.slot+'">'+(value?esc(value):'选择符号')+'</button>';
+    }
+    return '<span class="builder-term">'+esc(p.text)+'</span>';
+  }).join('');
+  const symbols=[...new Set(b.slots.flatMap(s=>s.choices))];
+  const selectedLabel=b.slots.find(s=>s.id===selectedSlot)?.label;
+  const status=selectedSlot?'已选中「'+esc(selectedLabel)+'」，请点击下方一个符号。':(b.slots.every(s=>builderValues[s.id])?'所有空位已填写，可以提交答案。':'请先点击检索式中的空位，再选择符号。');
+  return '<div class="builder-panel"><div class="builder-panel-head"><b>检索式搭建区</b><span>点击空位 → 选择符号</span></div><div class="builder-expression">'+parts+'</div><div class="builder-status" id="builderStatus">'+status+'</div><div class="symbol-bank-title">逻辑符号工具箱</div><div class="symbol-bank">'+symbols.map(sym=>'<button class="symbol-btn" data-symbol="'+esc(sym)+'">'+esc(sym)+'</button>').join('')+'</div><div class="builder-footnote">提示：符号必须放进正确的空位；可以再次点击已填位置进行修改。</div></div>';
+}
+function renderBuilderUI(l){
+  $('options').innerHTML=builderMarkup(l);
+  document.querySelectorAll('[data-slot]').forEach(b=>b.addEventListener('click',()=>{
+    selectedSlot=b.dataset.slot;
+    renderBuilderUI(l);
+  }));
+  document.querySelectorAll('[data-symbol]').forEach(b=>b.addEventListener('click',()=>{
+    if(!selectedSlot){
+      $('feedback').className='feedback show bad';
+      $('feedback').innerHTML='<div class="feedback-head">先选中一个空位</div><p>请先点击检索式中的“选择符号”位置，再点击工具箱里的逻辑符号。</p>';
+      return;
+    }
+    builderValues[selectedSlot]=b.dataset.symbol;
+    selectedSlot=null;builderChecked=false;
+    $('feedback').className='feedback';$('feedback').innerHTML='';
+    renderBuilderUI(l);
+  }));
+}
 function render(){
-  const l=levels[current]; selected=null;checked=false;
+  const l=levels[current]; selected=null;checked=false;builderValues={};selectedSlot=null;builderChecked=false;
   $('taskKicker').textContent=l.kicker;$('taskType').textContent=l.type;$('npcText').textContent=l.npc;
   $('taskTitle').textContent=l.title;$('taskDesc').textContent=l.desc;$('learningGoal').textContent=l.goal;
   $('blocksArea').innerHTML='<div class="section-label">把需求拆成关键词积木</div><div class="block-groups">'+l.groups.map(g=>'<div class="block-group"><div class="group-head"><span>'+esc(g.name)+'</span><span>WORD BLOCKS</span></div><div class="blocks">'+g.words.map(w=>'<span class="word-block '+(g.tone==='green'?'green':g.tone==='gold'?'gold':'')+'">'+esc(w)+'</span>').join('')+'</div></div>').join('')+'</div>';
-  $('options').innerHTML=l.options.map((o,i)=>'<button class="option" data-option="'+i+'"><span class="option-letter">'+o.label+'</span><span class="option-copy"><code>'+esc(o.expr)+'</code><small>'+esc(o.sub)+'</small></span></button>').join('');
-  document.querySelectorAll('[data-option]').forEach(b=>b.addEventListener('click',()=>choose(Number(b.dataset.option))));
+  $('options').className=l.builder?'builder-options':'options';
+  document.querySelector('.section-label').textContent=l.builder?'选择逻辑符号，亲手搭建检索式':'请选择你认为正确的检索式';
+  if(l.builder){renderBuilderUI(l)}
+  else{
+    $('options').innerHTML=l.options.map((o,i)=>'<button class="option" data-option="'+i+'"><span class="option-letter">'+o.label+'</span><span class="option-copy"><code>'+esc(o.expr)+'</code><small>'+esc(o.sub)+'</small></span></button>').join('');
+    document.querySelectorAll('[data-option]').forEach(b=>b.addEventListener('click',()=>choose(Number(b.dataset.option))));
+  }
   $('feedback').className='feedback';$('feedback').innerHTML='';
-  $('submitBtn').style.display='inline-block';$('nextBtn').style.display='none';
+  $('submitBtn').style.display='inline-block';$('nextBtn').style.display='none';$('submitBtn').textContent=l.builder?'检查我的检索式':'提交答案';
   $('prevBtn').disabled=current===0;$('prevBtn').style.opacity=current===0?'.4':'1';
   $('hintBtn').disabled=false;
   renderNav();updateStats();
@@ -286,8 +453,32 @@ function choose(i){
   document.querySelectorAll('[data-option]').forEach((b,n)=>b.classList.toggle('selected',n===i));
 }
 function submit(){
+  const l=levels[current];
+  if(l.builder){
+    const missing=l.builder.slots.filter(s=>!builderValues[s.id]);
+    if(missing.length){
+      $('feedback').className='feedback show bad';
+      $('feedback').innerHTML='<div class="feedback-head">还有空位没有填写</div><p>请完成所有符号位置，再检查整条检索式。</p>';
+      return;
+    }
+    tries[current]++;attempts++;
+    const wrong=l.builder.slots.filter(s=>builderValues[s.id]!==s.answer);
+    builderChecked=true;
+    if(wrong.length===0){
+      if(!completed[current])score+=10;
+      completed[current]=true;
+      $('feedback').className='feedback show';
+      $('feedback').innerHTML='<div class="feedback-head">✓ 完美！你亲手搭好了检索式。</div><p>'+esc(l.explain)+'</p><p><b>容易踩的坑：</b>'+esc(l.mistake)+'</p><p class="keypoint">记忆口诀：'+esc(l.key)+'</p>';
+      $('submitBtn').style.display='none';$('nextBtn').style.display='inline-block';
+      $('nextBtn').textContent=current===levels.length-1?'查看通关结果':'下一关 →';
+    }else{
+      $('feedback').className='feedback show bad';
+      $('feedback').innerHTML='<div class="feedback-head">有 '+wrong.length+' 个符号位置还需要调整。</div><p>'+esc(wrong.map(s=>s.label).join('；'))+'</p><p><b>提示：</b>'+esc(l.mistake)+'</p><p>点击需要修改的空位，再从工具箱选择新的符号。</p>';
+    }
+    renderBuilderUI(l);updateStats();renderNav();return;
+  }
   if(selected===null){$('feedback').className='feedback show bad';$('feedback').innerHTML='<div class="feedback-head">先选择一条检索式</div><p>观察关键词积木，判断它们属于同一概念，还是不同概念，再提交答案。</p>';return}
-  const l=levels[current],o=l.options[selected];tries[current]++;attempts++;
+  const o=l.options[selected];tries[current]++;attempts++;
   if(o.correct){
     if(!completed[current])score+=10;
     completed[current]=true;
@@ -305,7 +496,7 @@ function next(){
   if(current<levels.length-1){go(current+1);return}
   showFinal();
 }
-function go(n){current=Math.max(0,Math.min(levels.length-1,n));render()}
+function go(n){const done=completed.filter(Boolean).length;if(n>=6&&n>done){$('feedback').className='feedback show bad';$('feedback').innerHTML='<div class="feedback-head">新阶段尚未解锁</div><p>先完成前面的关卡，再逐步解锁符号搭建挑战。</p>';return}current=Math.max(0,Math.min(levels.length-1,n));render()}
 function updateStats(){
   const done=completed.filter(Boolean).length;
   $('score').textContent=score;$('completed').textContent=done+' / '+levels.length;
@@ -316,12 +507,12 @@ function hint(){
   const l=levels[current];$('feedback').className='feedback show';
   $('feedback').innerHTML='<div class="feedback-head">提示卡</div><p>'+esc(l.hint)+'</p><p class="keypoint">'+esc(l.key)+'</p>';
 }
-function resetLevel(){if(completed[current]){completed[current]=false;score=Math.max(0,score-10)}selected=null;checked=false;render()}
+function resetLevel(){if(completed[current]){completed[current]=false;score=Math.max(0,score-10)}selected=null;checked=false;builderValues={};selectedSlot=null;builderChecked=false;render()}
 function showFinal(){
   $('taskKicker').textContent='MISSION COMPLETE · SUMMARY';$('taskType').textContent='闯关完成';
   $('npcText').textContent='太棒了！你已经完成了检索积木挑战。现在你可以向同学解释：为什么同义词用 OR、不同概念用 AND，以及为什么跨字段要切换为知网专业检索语法。';
   $('taskTitle').textContent='你已经成为检索积木工程师！';
-  $('taskDesc').textContent='本轮得分 '+score+' / 60。建议回到答错的关卡，再用自己的话解释一次检索式的逻辑。';
+  $('taskDesc').textContent='本轮得分 '+score+' / '+(levels.length*10)+'。你已完成 '+levels.length+' 关。建议回到答错的关卡，再用自己的话解释一次检索式的逻辑。';
   $('blocksArea').innerHTML='<div class="section-label">本轮掌握的核心规则</div><div class="block-groups"><div class="block-group"><div class="group-head">规则一</div><div class="blocks"><span class="word-block">同义词 OR</span><span class="word-block green">概念组 AND</span></div></div><div class="block-group"><div class="group-head">规则二</div><div class="blocks"><span class="word-block gold">括号分组</span><span class="word-block">字段切换</span></div></div></div>';
   $('options').innerHTML='<div class="feedback show"><div class="feedback-head">给自己做一次费曼复述</div><p>请尝试用自己的话解释：为什么“ChatGPT 或大语言模型”与“图书馆或档案馆”之间要用 AND？为什么每组内部要用 OR？</p><p class="keypoint">如果能不看提示讲清楚，你就真正掌握了这套检索逻辑。</p></div>';
   $('feedback').className='feedback';$('feedback').innerHTML='';
