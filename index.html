@@ -168,7 +168,7 @@ body.presentation .symbol-btn{font-size:19px;min-width:65px;padding:13px 17px}
       <div class="npc"><div class="npc-avatar">🧑🏻‍💻</div><div><strong>NPC · 图书馆小助手</strong><p id="npcText"></p></div></div>
       <h2 id="taskTitle"></h2><p class="task-desc" id="taskDesc"></p>
       <div id="blocksArea"></div>
-      <div class="section-label">请选择你认为正确的检索式</div>
+      <div class="section-label" id="optionsLabel">请选择你认为正确的检索式</div>
       <div class="options" id="options"></div>
       <div class="feedback" id="feedback" aria-live="polite"></div>
       <div class="controls"><div class="control-left"><button class="soft-btn" id="hintBtn">给我一点提示</button><button class="ghost-btn" id="resetBtn">重做本关</button></div><div class="control-right"><button class="ghost-btn" id="prevBtn">← 上一关</button><button class="primary-btn" id="submitBtn">提交答案</button><button class="primary-btn" id="nextBtn" style="display:none">下一关 →</button></div></div>
@@ -435,7 +435,7 @@ function render(){
   $('taskTitle').textContent=l.title;$('taskDesc').textContent=l.desc;$('learningGoal').textContent=l.goal;
   $('blocksArea').innerHTML='<div class="section-label">把需求拆成关键词积木</div><div class="block-groups">'+l.groups.map(g=>'<div class="block-group"><div class="group-head"><span>'+esc(g.name)+'</span><span>WORD BLOCKS</span></div><div class="blocks">'+g.words.map(w=>'<span class="word-block '+(g.tone==='green'?'green':g.tone==='gold'?'gold':'')+'">'+esc(w)+'</span>').join('')+'</div></div>').join('')+'</div>';
   $('options').className=l.builder?'builder-options':'options';
-  document.querySelector('.section-label').textContent=l.builder?'选择逻辑符号，亲手搭建检索式':'请选择你认为正确的检索式';
+  $('optionsLabel').textContent=l.builder?'选择逻辑符号，亲手搭建检索式':'请选择你认为正确的检索式';
   if(l.builder){renderBuilderUI(l)}
   else{
     $('options').innerHTML=l.options.map((o,i)=>'<button class="option" data-option="'+i+'"><span class="option-letter">'+o.label+'</span><span class="option-copy"><code>'+esc(o.expr)+'</code><small>'+esc(o.sub)+'</small></span></button>').join('');
