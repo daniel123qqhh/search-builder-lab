@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f3ed">
+<title>检索积木实验室｜Search Builder</title>
+<style>
+:root{--ink:#182b3a;--muted:#71808a;--paper:#f5f3ed;--card:#fffefa;--line:#e5e2d8;--blue:#dceaf5;--blue-ink:#285675;--green:#e0eee5;--green-ink:#286044;--gold:#f5e8ce;--gold-ink:#865d1d;--rose:#f7e3df;--rose-ink:#944b40;--shadow:0 16px 45px rgba(29,45,55,.08)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,"PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+button{font:inherit;cursor:pointer}
+.topbar{height:72px;padding:0 clamp(18px,4vw,58px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:rgba(255,254,250,.86);position:sticky;top:0;z-index:10;backdrop-filter:blur(14px)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.02em}
+.brand-mark{width:38px;height:38px;border-radius:13px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:19px}
+.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.14em;font-weight:700;margin-top:2px}
+.top-actions{display:flex;align-items:center;gap:10px}
+.pill{font-size:12px;padding:7px 11px;border-radius:99px;background:#e8efe9;color:#41634e;font-weight:700}
+.ghost-btn,.primary-btn,.soft-btn{border:0;border-radius:12px;padding:10px 14px;font-weight:750;transition:.18s}
+.ghost-btn{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.ghost-btn:hover,.soft-btn:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(20,40,50,.08)}
+.primary-btn{background:var(--ink);color:white}
+.primary-btn:hover{background:#28495e;transform:translateY(-1px)}
+.soft-btn{background:#edf1f2;color:#365266}
+.page{max-width:1440px;margin:0 auto;padding:34px clamp(16px,3vw,42px) 56px}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin:10px 0 28px}
+.eyebrow{font-size:11px;letter-spacing:.16em;color:#71808a;font-weight:800;text-transform:uppercase}
+h1{font-size:clamp(32px,4vw,52px);letter-spacing:-.055em;line-height:1.06;margin:10px 0 9px}
+.hero p{margin:0;color:var(--muted);font-size:15px;line-height:1.7;max-width:680px}
+.hero-stats{display:flex;gap:10px;flex-wrap:wrap}
+.stat{min-width:108px;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:12px 15px}
+.stat strong{font-size:22px;display:block;letter-spacing:-.04em}
+.stat span{font-size:11px;color:var(--muted);font-weight:700}
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr) 260px;gap:18px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.sidebar{padding:16px;position:sticky;top:90px}
+.side-label{font-size:10px;letter-spacing:.15em;color:#98a1a2;font-weight:800;margin:5px 8px 12px}
+.level-list{display:grid;gap:7px}
+.level-btn{width:100%;border:0;background:transparent;text-align:left;border-radius:13px;padding:11px 10px;display:flex;align-items:center;gap:10px;color:#53636b}
+.level-btn:hover{background:#f4f5f1}
+.level-btn.active{background:#e9f0f3;color:var(--ink);font-weight:800}
+.level-num{width:27px;height:27px;border-radius:9px;background:#f0eee7;display:grid;place-items:center;font-size:12px;font-weight:800;flex:none}
+.level-btn.active .level-num{background:var(--ink);color:#fff}
+.level-btn.done .level-num{background:#dceee2;color:#2f6848}
+.level-name{font-size:12px;line-height:1.35}
+.level-name small{display:block;font-size:10px;color:#97a0a2;margin-top:3px;font-weight:500}
+.progress-box{margin:18px 4px 3px;padding:13px;background:#f6f5ef;border-radius:13px}
+.progress-head{display:flex;justify-content:space-between;font-size:11px;font-weight:750;margin-bottom:9px}
+.progress-track{height:6px;background:#e5e2d8;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:#5b8a73;border-radius:99px;transition:width .3s}
+.main-card{padding:clamp(18px,2.4vw,30px);min-height:690px}
+.task-top{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:17px}
+.task-kicker{font-size:11px;color:#7d8b8e;font-weight:800;letter-spacing:.12em}
+.task-type{font-size:11px;padding:7px 10px;background:#f3efe5;border-radius:99px;color:#80642d;font-weight:800}
+.npc{display:flex;align-items:flex-start;gap:13px;background:#f0f4f3;border:1px solid #e2eae6;border-radius:16px;padding:15px;margin:14px 0 22px}
+.npc-avatar{width:42px;height:42px;flex:none;border-radius:14px;background:#dce9e4;display:grid;place-items:center;font-size:22px}
+.npc strong{font-size:12px;display:block;margin:2px 0 5px}
+.npc p{margin:0;font-size:13px;line-height:1.65;color:#53636b}
+h2{font-size:clamp(22px,2.5vw,30px);letter-spacing:-.035em;margin:0 0 9px}
+.task-desc{color:var(--muted);font-size:13px;line-height:1.7;margin:0 0 22px}
+.section-label{font-size:10px;letter-spacing:.14em;color:#8b9798;font-weight:850;margin:22px 0 10px}
+.block-groups{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.block-group{padding:13px;border-radius:15px;border:1px solid var(--line);background:#fff}
+.group-head{font-size:10px;color:#899596;font-weight:800;margin-bottom:10px;display:flex;justify-content:space-between}
+.blocks{display:flex;flex-wrap:wrap;gap:7px}
+.word-block{padding:9px 12px;border-radius:10px;font-weight:800;font-size:13px;background:var(--blue);color:var(--blue-ink);border:1px solid #cbddea}
+.word-block.green{background:var(--green);border-color:#cfe2d4;color:var(--green-ink)}
+.word-block.gold{background:var(--gold);border-color:#ebddc0;color:var(--gold-ink)}
+.options{display:grid;gap:9px}
+.option{width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:14px;padding:13px 15px;display:flex;align-items:flex-start;gap:12px;transition:.16s}
+.option:hover{border-color:#9eb5c1;transform:translateY(-1px)}
+.option.selected{border:2px solid #476e84;background:#f1f6f8;padding:12px 14px}
+.option.correct{border:2px solid #75a789;background:#f0f7f1;padding:12px 14px}
+.option.wrong{border:2px solid #d89b8f;background:#fff5f2;padding:12px 14px}
+.option-letter{width:27px;height:27px;flex:none;border-radius:9px;background:#f1f0eb;display:grid;place-items:center;font-size:11px;font-weight:900}
+.option-copy{min-width:0}
+.option-copy code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;line-height:1.6;white-space:normal;overflow-wrap:anywhere;color:#243c4c}
+.option-copy small{display:block;color:#8a9698;font-size:10px;margin-top:5px}
+.controls{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;flex-wrap:wrap}
+.control-left,.control-right{display:flex;gap:8px;flex-wrap:wrap}
+.feedback{display:none;margin-top:16px;padding:16px;border-radius:15px;border:1px solid #d9e5dd;background:#f1f7f2}
+.feedback.show{display:block}
+.feedback.bad{background:#fff5f1;border-color:#efd8d1}
+.feedback-head{font-weight:900;font-size:14px;margin-bottom:7px}
+.feedback p{font-size:12px;line-height:1.75;color:#52636a;margin:5px 0}
+.feedback .keypoint{font-weight:800;color:#315c46}
+.logic-visual{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.logic-chip{background:#fff;border:1px solid #e0e8e2;border-radius:11px;padding:10px}
+.logic-chip b{font-family:ui-monospace,monospace;font-size:15px}
+.logic-chip span{display:block;font-size:10px;color:#718078;margin-top:3px}
+.right-col{display:grid;gap:14px;position:sticky;top:90px}
+.note-card{padding:17px}
+.note-title{font-size:12px;font-weight:900;margin-bottom:13px;display:flex;align-items:center;gap:8px}
+.rule{display:flex;gap:10px;padding:9px 0;border-top:1px solid #efeee8}
+.rule:first-of-type{border-top:0}
+.rule-symbol{width:39px;height:34px;flex:none;border-radius:10px;background:#edf1f2;display:grid;place-items:center;font-family:ui-monospace,monospace;font-weight:900;color:#31566b}
+.rule b{display:block;font-size:11px;margin:1px 0 3px}
+.rule p{font-size:10px;line-height:1.5;color:#7b898a;margin:0}
+.field-list{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.field{background:#f5f4ef;border-radius:9px;padding:8px 9px}
+.field b{font-family:ui-monospace,monospace;font-size:12px}
+.field span{display:block;font-size:10px;color:#7b898a;margin-top:2px}
+.tip{font-size:11px;line-height:1.7;color:#657578;background:#f4f5f1;padding:11px;border-radius:11px;margin-top:12px}
+.footer{margin-top:22px;display:flex;justify-content:space-between;gap:12px;color:#8d9898;font-size:10px;flex-wrap:wrap}
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(15,30,38,.48);z-index:30;align-items:center;justify-content:center;padding:20px}
+.modal-backdrop.show{display:flex}
+.modal{max-width:560px;width:100%;background:var(--card);border-radius:22px;padding:26px;box-shadow:0 25px 80px rgba(0,0,0,.2)}
+.modal h3{margin:0 0 10px;font-size:22px}
+.modal p{font-size:13px;line-height:1.8;color:#637176}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+body.presentation .page{max-width:1600px}
+body.presentation .main-card{min-height:760px;padding:38px}
+body.presentation h1{font-size:56px}
+body.presentation h2{font-size:36px}
+body.presentation .npc p,body.presentation .task-desc{font-size:16px}
+body.presentation .option-copy code{font-size:15px}
+body.presentation .option{padding:17px}
+body.presentation .right-col{top:90px}
+@media(max-width:1120px){.layout{grid-template-columns:190px minmax(0,1fr)}.right-col{grid-column:2;position:static;grid-template-columns:1fr 1fr}.main-card{min-height:0}}
+@media(max-width:760px){.topbar{height:62px}.pill{display:none}.hero{display:block}.hero-stats{margin-top:18px}.layout{grid-template-columns:1fr}.sidebar{position:static;padding:12px}.level-list{display:flex;overflow:auto}.level-btn{min-width:130px}.progress-box{margin-top:12px}.right-col{grid-column:1;grid-template-columns:1fr}.block-groups{grid-template-columns:1fr}.main-card{padding:17px}.hero h1{font-size:36px}.top-actions .ghost-btn{font-size:11px;padding:8px}.stat{min-width:90px}.footer{display:block}.footer span{display:block;margin-top:5px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">⌕</div><div>检索积木实验室<small>SEARCH BUILDER · INFORMATION RETRIEVAL</small></div></div>
+  <div class="top-actions"><span class="pill">离线互动 · 无需 AI API</span><button class="ghost-btn" id="presentationBtn">▣ 投屏模式</button><button class="ghost-btn" id="aboutBtn">玩法说明</button></div>
+</header>
+<main class="page">
+  <section class="hero">
+    <div><div class="eyebrow">BUILD A BETTER SEARCH STRATEGY</div><h1>把检索式，搭成一座积木。</h1><p>NPC 发布学术检索任务，你负责选择关键词、逻辑符号与字段。每一次选择，都会帮你看懂检索范围为什么变大或变小。</p></div>
+    <div class="hero-stats"><div class="stat"><strong id="score">0</strong><span>累计积分</span></div><div class="stat"><strong id="completed">0 / 6</strong><span>完成关卡</span></div><div class="stat"><strong id="accuracy">—</strong><span>当前正确率</span></div></div>
+  </section>
+  <section class="layout">
+    <aside class="panel sidebar">
+      <div class="side-label">MISSION MAP / 关卡地图</div>
+      <nav class="level-list" id="levelList"></nav>
+      <div class="progress-box"><div class="progress-head"><span>学习进度</span><span id="progressText">0%</span></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div></div>
+    </aside>
+    <section class="panel main-card">
+      <div class="task-top"><div class="task-kicker" id="taskKicker">MISSION 01 · SEARCH BASICS</div><div class="task-type" id="taskType">基础训练</div></div>
+      <div class="npc"><div class="npc-avatar">🧑🏻‍💻</div><div><strong>NPC · 图书馆小助手</strong><p id="npcText"></p></div></div>
+      <h2 id="taskTitle"></h2><p class="task-desc" id="taskDesc"></p>
+      <div id="blocksArea"></div>
+      <div class="section-label">请选择你认为正确的检索式</div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback" aria-live="polite"></div>
+      <div class="controls"><div class="control-left"><button class="soft-btn" id="hintBtn">给我一点提示</button><button class="ghost-btn" id="resetBtn">重做本关</button></div><div class="control-right"><button class="ghost-btn" id="prevBtn">← 上一关</button><button class="primary-btn" id="submitBtn">提交答案</button><button class="primary-btn" id="nextBtn" style="display:none">下一关 →</button></div></div>
+    </section>
+    <aside class="right-col">
+      <section class="panel note-card"><div class="note-title">🧩 逻辑符号工具箱</div>
+        <div class="rule"><div class="rule-symbol">OR / +</div><div><b>或者 · 扩展同义词</b><p>满足其中一个表达即可，通常扩大检索范围。</p></div></div>
+        <div class="rule"><div class="rule-symbol">AND / *</div><div><b>并且 · 连接不同概念</b><p>多个概念同时出现，通常缩小检索范围。</p></div></div>
+        <div class="rule"><div class="rule-symbol">NOT / -</div><div><b>排除 · 去掉不需要的内容</b><p>谨慎使用，避免误删有价值的文献。</p></div></div>
+        <div class="rule"><div class="rule-symbol">( )</div><div><b>括号 · 把同一组先组合</b><p>明确逻辑分组，避免运算顺序产生歧义。</p></div></div>
+      </section>
+      <section class="panel note-card"><div class="note-title">⌨ 知网常见字段</div><div class="field-list">
+        <div class="field"><b>SU</b><span>主题</span></div><div class="field"><b>TI</b><span>篇名 / 标题</span></div>
+        <div class="field"><b>KY</b><span>关键词</span></div><div class="field"><b>AB</b><span>摘要</span></div>
+        <div class="field"><b>AU</b><span>作者</span></div><div class="field"><b>AF</b><span>作者单位</span></div>
+        <div class="field"><b>FT</b><span>全文</span></div><div class="field"><b>DOI</b><span>数字对象标识符</span></div>
+      </div><div class="tip">课堂记忆：同一检索字段内，按知网专业检索规则使用 +、*、-；切换不同字段时，使用 AND、OR、NOT 连接。符号和括号使用英文半角。</div></section>
+      <section class="panel note-card"><div class="note-title">💡 本关学习目标</div><p id="learningGoal" style="font-size:11px;line-height:1.8;color:#718083;margin:0">理解同义词之间的逻辑关系。</p><div class="tip">提醒：这里的题目与结果是教学模拟，用来解释检索逻辑，不代表中国知网的真实命中数量。</div></section>
+    </aside>
+  </section>
+  <div class="footer"><span>检索积木实验室 · 信息检索课程互动练习</span><span>本页面为教学演示工具，不连接知网、万方或维普数据库。</span></div>
+</main>
+<div class="modal-backdrop" id="modal"><div class="modal"><h3>怎么玩？</h3><p>① 阅读 NPC 的检索需求。② 观察关键词积木，把同义词和不同概念分清。③ 选择一条检索式并提交。④ 看解析，理解为什么正确或错误。⑤ 完成六关，掌握从通用布尔检索式到知网专业检索式的转换。</p><p><b>投屏建议：</b>点击右上角「投屏模式」放大文字；先让同学讨论，再提交答案展示解析。所有判题均在浏览器本地完成，不调用 AI 服务。</p><div class="modal-actions"><button class="primary-btn" id="closeModal">开始闯关</button></div></div></div>
+<script>
+const levels = [
+{
+title:"同义词，应该用哪个符号？",type:"积木入门",kicker:"MISSION 01 · SYNONYMS",goal:"理解同一概念的不同表达之间，为什么通常使用 OR。",
+npc:"我想查找关于 ChatGPT 或大语言模型的研究。两种说法都可能出现在论文里，只要出现其中一种就可以。",
+desc:"先判断这两个词是什么关系：它们是同一个研究概念的不同表达，还是必须同时出现的两个独立概念？",
+groups:[{name:"同一概念的不同表达",tone:"blue",words:["ChatGPT","大语言模型"]}],
+options:[
+{label:"A",expr:"ChatGPT AND 大语言模型",sub:"要求两个词同时出现",correct:false},
+{label:"B",expr:"ChatGPT OR 大语言模型",sub:"出现其中任意一个即可",correct:true},
+{label:"C",expr:"ChatGPT NOT 大语言模型",sub:"检索 ChatGPT，同时排除大语言模型",correct:false}
+],
+explain:"ChatGPT 和“大语言模型”在这道题里是同一研究概念的不同表达。文献可能只使用其中一个词，因此要用 OR 把它们连接起来：出现 ChatGPT，或者出现大语言模型，都可以被检出。",
+mistake:"如果用 AND，就要求同一条文献同时出现两个表达。这样会漏掉只写“ChatGPT”或只写“大语言模型”的文献。",
+key:"同义词 / 近义表达 → OR（或者）→ 扩大检索范围。",
+hint:"想一想：论文只写了“ChatGPT”，但没有写“大语言模型”，你希望它被检索出来吗？"
+},
+{
+title:"不同概念，为什么要用 AND？",type:"概念组合",kicker:"MISSION 02 · CONCEPT GROUPS",goal:"区分同一概念内部的 OR 与不同概念之间的 AND。",
+npc:"我想研究生成式 AI 在图书馆或档案馆中的应用。只讨论 AI、不讨论机构场景的文章不够；只讨论图书馆、不讨论 AI 的文章也不够。",
+desc:"把检索需求拆成两个积木组：技术概念组、应用场景组。每一组内部允许出现同义表达，两组之间必须同时满足。",
+groups:[{name:"技术概念组",tone:"blue",words:["ChatGPT","大语言模型"]},{name:"应用场景组",tone:"green",words:["图书馆","档案馆"]}],
+options:[
+{label:"A",expr:"(ChatGPT OR 大语言模型) AND (图书馆 OR 档案馆)",sub:"每组满足一个表达，两组都要出现",correct:true},
+{label:"B",expr:"(ChatGPT AND 大语言模型) OR (图书馆 AND 档案馆)",sub:"把组内同义词错误地要求同时出现",correct:false},
+{label:"C",expr:"(ChatGPT OR 大语言模型) OR (图书馆 OR 档案馆)",sub:"只要出现技术或场景任意一组就可以",correct:false}
+],
+explain:"这道题有两层逻辑。第一层：ChatGPT 和“大语言模型”是技术概念的不同表达，用 OR。第二层：“图书馆”和“档案馆”是应用场景的不同表达，也用 OR。最后，技术概念与应用场景必须同时存在，所以两组之间用 AND。",
+mistake:"如果两组之间也用 OR，就会把“只谈 AI、不谈图书馆或档案馆”的文章放进来；如果组内用 AND，又会漏掉只出现一个同义词的文章。",
+key:"组内同义词用 OR；不同研究概念组之间用 AND。",
+hint:"先问自己：只出现“图书馆”但没有 AI，是否符合研究问题？"
+},
+{
+title:"括号：让检索式按你的意思计算",type:"逻辑优先级",kicker:"MISSION 03 · PARENTHESES",goal:"理解括号如何明确分组，避免 AND 与 OR 的优先级改变检索意图。",
+npc:"我还是要查 AI 在图书馆或档案馆中的应用。现在请你检查：如果不加括号，检索系统可能先组合哪一部分？",
+desc:"AND、OR 不是随意排列的。为了让每个概念组先完成内部组合，再连接两个概念组，需要使用括号。",
+groups:[{name:"概念组 A",tone:"blue",words:["ChatGPT","OR","大语言模型"]},{name:"概念组 B",tone:"green",words:["图书馆","OR","档案馆"]}],
+options:[
+{label:"A",expr:"ChatGPT OR 大语言模型 AND 图书馆 OR 档案馆",sub:"没有明确分组，容易改变原本意图",correct:false},
+{label:"B",expr:"(ChatGPT OR 大语言模型) AND (图书馆 OR 档案馆)",sub:"先组合两组同义词，再连接两组概念",correct:true},
+{label:"C",expr:"(ChatGPT AND 大语言模型) OR (图书馆 AND 档案馆)",sub:"括号虽然存在，但组内逻辑仍然错误",correct:false}
+],
+explain:"括号的作用不是装饰，而是告诉检索系统：先把 ChatGPT 与“大语言模型”作为一组；再把“图书馆”与“档案馆”作为一组；最后要求两组同时出现。括号把你的研究逻辑表达清楚。",
+mistake:"不加括号时，AND 与 OR 的运算优先顺序可能让检索式被理解成另一种组合。即使检索式里出现了所有关键词，也不代表逻辑关系正确。",
+key:"先分组，再连接： (A OR B) AND (C OR D)。",
+hint:"先把两组同义词各自圈起来，再决定两组之间的关系。"
+},
+{
+title:"把通用布尔检索式翻译成知网专业检索式",type:"知网专业检索",kicker:"MISSION 04 · CNKI SYNTAX",goal:"认识 TI、SU 字段，并理解同一字段内的 + 与跨字段 AND。",
+npc:"我希望：篇名中出现“ChatGPT”或“大语言模型”，并且主题中出现“图书馆”或“智慧服务”。请把它写成知网专业检索式。",
+desc:"注意字段：TI 表示篇名，SU 表示主题。同一字段内的两个同义词用 + 表示逻辑 OR；两个不同字段之间用 AND 连接。",
+groups:[{name:"篇名字段 TI",tone:"blue",words:["ChatGPT","+","大语言模型"]},{name:"主题字段 SU",tone:"green",words:["图书馆","+","智慧服务"]}],
+options:[
+{label:"A",expr:"TI=('ChatGPT'+'大语言模型') AND SU=('图书馆'+'智慧服务')",sub:"同字段内 +；跨字段 AND",correct:true},
+{label:"B",expr:"TI=('ChatGPT'*'大语言模型') AND SU=('图书馆'*'智慧服务')",sub:"把同义词误写成必须同时出现",correct:false},
+{label:"C",expr:"TI='ChatGPT' + SU='图书馆'",sub:"把不同字段直接用 + 连接，且遗漏词项",correct:false}
+],
+explain:"先看 TI 字段：篇名中出现 ChatGPT 或“大语言模型”，所以同字段内用 +。再看 SU 字段：主题中出现“图书馆”或“智慧服务”，也用 +。最后，篇名条件与主题条件必须同时满足，所以两个字段之间用 AND。",
+mistake:"不要把同一字段内的 + 和跨字段的 AND 混为一谈。+ 在这里表示同一字段内的逻辑或；AND 用来连接不同字段的检索条件。",
+key:"TI=(A+B) AND SU=(C+D)。注意英文半角括号、引号与运算符。",
+hint:"先写字段，再处理字段内部的同义词，最后连接不同字段。"
+},
+{
+title:"字段切换时，运算符也要切换",type:"字段组合",kicker:"MISSION 05 · FIELD SWITCH",goal:"掌握同一字段与不同字段之间的连接规则。",
+npc:"我想检索篇名中含有“ChatGPT”，并且关键词字段中含有“图书馆”的文献。两个条件属于不同字段。",
+desc:"TI 是篇名字段，KY 是关键词字段。请选出符合“两个字段条件同时成立”的写法。",
+groups:[{name:"篇名字段",tone:"blue",words:["TI='ChatGPT'"]},{name:"关键词字段",tone:"green",words:["KY='图书馆'"]}],
+options:[
+{label:"A",expr:"TI='ChatGPT' * KY='图书馆'",sub:"把同字段连接符用于两个不同字段",correct:false},
+{label:"B",expr:"TI='ChatGPT' AND KY='图书馆'",sub:"跨字段使用 AND，表示两个条件同时成立",correct:true},
+{label:"C",expr:"TI='ChatGPT' + KY='图书馆'",sub:"跨字段使用 OR，会变成满足其一即可",correct:false}
+],
+explain:"TI 与 KY 是两个不同的检索字段。题目要求篇名条件和关键词条件同时满足，因此用 AND 连接。按课堂讲解的知网专业检索规则，同一字段内使用 +、*、-；切换不同字段时使用 AND、OR、NOT。",
+mistake:"如果把不同字段用 OR 连接，就可能检出篇名含 ChatGPT 但关键词没有图书馆的文献，或关键词有图书馆但篇名没有 ChatGPT 的文献。",
+key:"不同字段 + 同时满足 → AND；不同字段 + 满足其一 → OR。",
+hint:"先看两个条件是不是同一个字段。TI 和 KY 显然不是。"
+},
+{
+title:"综合挑战：小麦抗旱研究怎么检索？",type:"综合实战",kicker:"MISSION 06 · FINAL CHALLENGE",goal:"将三个概念模块拆分、分组，再组合成完整检索策略。",
+npc:"我想查找小麦抗旱或耐旱研究，并且希望文献涉及生理或生化方面的内容。请你构建一个逻辑清晰的检索式。",
+desc:"请把需求拆成三个概念模块：研究对象、研究主题、研究角度。每个模块内部的替代表达用 OR；三个模块之间用 AND。",
+groups:[{name:"研究对象",tone:"blue",words:["小麦"]},{name:"研究主题",tone:"green",words:["抗旱","OR","耐旱"]},{name:"研究角度",tone:"gold",words:["生理","OR","生化"]}],
+options:[
+{label:"A",expr:"小麦 AND (抗旱 OR 耐旱) AND (生理 OR 生化)",sub:"三个概念模块同时满足，模块内部保留替代表达",correct:true},
+{label:"B",expr:"小麦 OR 抗旱 OR 耐旱 AND 生理 OR 生化",sub:"缺少括号，且把不同概念关系混在一起",correct:false},
+{label:"C",expr:"小麦 AND 抗旱 AND 耐旱 AND 生理 AND 生化",sub:"要求所有替代表达同时出现，检索范围过窄",correct:false}
+],
+explain:"第一组是研究对象“小麦”；第二组是研究主题“抗旱或耐旱”；第三组是研究角度“生理或生化”。三个概念模块缺一不可，因此模块之间用 AND；每个模块中的替代表达满足一个即可，因此组内用 OR，并用括号明确分组。",
+mistake:"不要把所有词一股脑用 AND 连起来。那会要求一篇文献同时写出“抗旱”和“耐旱”，还要同时写出“生理”和“生化”，容易漏掉只采用其中一种表述的研究。",
+key:"对象 AND (主题表达 A OR 主题表达 B) AND (角度表达 A OR 角度表达 B)。",
+hint:"先数清楚有几个概念模块，再分别判断模块内部和模块之间的关系。"
+}
+];
+let current=0,selected=null,checked=false,score=0,attempts=0;
+const completed=new Array(levels.length).fill(false);
+const tries=new Array(levels.length).fill(0);
+const $=id=>document.getElementById(id);
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function renderNav(){
+  $('levelList').innerHTML=levels.map((l,i)=>'<button class="level-btn '+(i===current?'active ':'')+(completed[i]?'done':'')+'" data-level="'+i+'"><span class="level-num">'+(completed[i]?'✓':String(i+1).padStart(2,'0'))+'</span><span class="level-name">'+esc(l.title)+'<small>'+esc(l.type)+'</small></span></button>').join('');
+  document.querySelectorAll('[data-level]').forEach(b=>b.addEventListener('click',()=>go(Number(b.dataset.level))));
+}
+function render(){
+  const l=levels[current]; selected=null;checked=false;
+  $('taskKicker').textContent=l.kicker;$('taskType').textContent=l.type;$('npcText').textContent=l.npc;
+  $('taskTitle').textContent=l.title;$('taskDesc').textContent=l.desc;$('learningGoal').textContent=l.goal;
+  $('blocksArea').innerHTML='<div class="section-label">把需求拆成关键词积木</div><div class="block-groups">'+l.groups.map(g=>'<div class="block-group"><div class="group-head"><span>'+esc(g.name)+'</span><span>WORD BLOCKS</span></div><div class="blocks">'+g.words.map(w=>'<span class="word-block '+(g.tone==='green'?'green':g.tone==='gold'?'gold':'')+'">'+esc(w)+'</span>').join('')+'</div></div>').join('')+'</div>';
+  $('options').innerHTML=l.options.map((o,i)=>'<button class="option" data-option="'+i+'"><span class="option-letter">'+o.label+'</span><span class="option-copy"><code>'+esc(o.expr)+'</code><small>'+esc(o.sub)+'</small></span></button>').join('');
+  document.querySelectorAll('[data-option]').forEach(b=>b.addEventListener('click',()=>choose(Number(b.dataset.option))));
+  $('feedback').className='feedback';$('feedback').innerHTML='';
+  $('submitBtn').style.display='inline-block';$('nextBtn').style.display='none';
+  $('prevBtn').disabled=current===0;$('prevBtn').style.opacity=current===0?'.4':'1';
+  $('hintBtn').disabled=false;
+  renderNav();updateStats();
+}
+function choose(i){
+  if(completed[current])return;
+  selected=i;checked=false;$('feedback').className='feedback';$('feedback').innerHTML='';
+  document.querySelectorAll('[data-option]').forEach((b,n)=>b.classList.toggle('selected',n===i));
+}
+function submit(){
+  if(selected===null){$('feedback').className='feedback show bad';$('feedback').innerHTML='<div class="feedback-head">先选择一条检索式</div><p>观察关键词积木，判断它们属于同一概念，还是不同概念，再提交答案。</p>';return}
+  const l=levels[current],o=l.options[selected];tries[current]++;attempts++;
+  if(o.correct){
+    if(!completed[current])score+=10;
+    completed[current]=true;
+    $('feedback').className='feedback show';
+    $('feedback').innerHTML='<div class="feedback-head">✓ 正确！你把检索逻辑搭对了。</div><p>'+esc(l.explain)+'</p><p><b>容易踩的坑：</b>'+esc(l.mistake)+'</p><p class="keypoint">记忆口诀：'+esc(l.key)+'</p><div class="logic-visual"><div class="logic-chip"><b>OR / +</b><span>同义表达：满足其一</span></div><div class="logic-chip"><b>AND / *</b><span>不同概念：同时满足</span></div></div>';
+    $('submitBtn').style.display='none';$('nextBtn').style.display='inline-block';$('nextBtn').textContent=current===levels.length-1?'查看通关结果':'下一关 →';
+  }else{
+    $('feedback').className='feedback show bad';
+    $('feedback').innerHTML='<div class="feedback-head">还差一点，再检查一下。</div><p>'+esc(l.mistake)+'</p><p><b>提示：</b>'+esc(l.hint)+'</p><p>你可以重新选择另一条检索式，再次提交。</p>';
+  }
+  document.querySelectorAll('[data-option]').forEach((b,n)=>{b.classList.remove('selected');if(n===selected)b.classList.add(o.correct?'correct':'wrong')});
+  updateStats();renderNav();
+}
+function next(){
+  if(current<levels.length-1){go(current+1);return}
+  showFinal();
+}
+function go(n){current=Math.max(0,Math.min(levels.length-1,n));render()}
+function updateStats(){
+  const done=completed.filter(Boolean).length;
+  $('score').textContent=score;$('completed').textContent=done+' / '+levels.length;
+  $('progressText').textContent=Math.round(done/levels.length*100)+'%';$('progressFill').style.width=(done/levels.length*100)+'%';
+  $('accuracy').textContent=attempts?Math.round(done/attempts*100)+'%':'—';
+}
+function hint(){
+  const l=levels[current];$('feedback').className='feedback show';
+  $('feedback').innerHTML='<div class="feedback-head">提示卡</div><p>'+esc(l.hint)+'</p><p class="keypoint">'+esc(l.key)+'</p>';
+}
+function resetLevel(){if(completed[current]){completed[current]=false;score=Math.max(0,score-10)}selected=null;checked=false;render()}
+function showFinal(){
+  $('taskKicker').textContent='MISSION COMPLETE · SUMMARY';$('taskType').textContent='闯关完成';
+  $('npcText').textContent='太棒了！你已经完成了检索积木挑战。现在你可以向同学解释：为什么同义词用 OR、不同概念用 AND，以及为什么跨字段要切换为知网专业检索语法。';
+  $('taskTitle').textContent='你已经成为检索积木工程师！';
+  $('taskDesc').textContent='本轮得分 '+score+' / 60。建议回到答错的关卡，再用自己的话解释一次检索式的逻辑。';
+  $('blocksArea').innerHTML='<div class="section-label">本轮掌握的核心规则</div><div class="block-groups"><div class="block-group"><div class="group-head">规则一</div><div class="blocks"><span class="word-block">同义词 OR</span><span class="word-block green">概念组 AND</span></div></div><div class="block-group"><div class="group-head">规则二</div><div class="blocks"><span class="word-block gold">括号分组</span><span class="word-block">字段切换</span></div></div></div>';
+  $('options').innerHTML='<div class="feedback show"><div class="feedback-head">给自己做一次费曼复述</div><p>请尝试用自己的话解释：为什么“ChatGPT 或大语言模型”与“图书馆或档案馆”之间要用 AND？为什么每组内部要用 OR？</p><p class="keypoint">如果能不看提示讲清楚，你就真正掌握了这套检索逻辑。</p></div>';
+  $('feedback').className='feedback';$('feedback').innerHTML='';
+  $('submitBtn').style.display='none';$('nextBtn').style.display='none';$('prevBtn').style.display='inline-block';$('prevBtn').textContent='← 返回最后一关';
+  $('hintBtn').textContent='重新开始';$('hintBtn').onclick=()=>{score=0;attempts=0;completed.fill(false);tries.fill(0);current=0;$('hintBtn').textContent='给我一点提示';$('hintBtn').onclick=hint;render()};
+  renderNav();updateStats();
+}
+$('submitBtn').addEventListener('click',submit);$('nextBtn').addEventListener('click',next);
+$('prevBtn').addEventListener('click',()=>{if(current===0)return;go(current-1)});
+$('hintBtn').addEventListener('click',hint);$('resetBtn').addEventListener('click',resetLevel);
+$('presentationBtn').addEventListener('click',()=>{document.body.classList.toggle('presentation');$('presentationBtn').textContent=document.body.classList.contains('presentation')?'▣ 退出投屏':'▣ 投屏模式'});
+$('aboutBtn').addEventListener('click',()=>$('modal').classList.add('show'));
+$('closeModal').addEventListener('click',()=>$('modal').classList.remove('show'));
+$('modal').addEventListener('click',e=>{if(e.target===$('modal'))$('modal').classList.remove('show')});
+render();$('modal').classList.add('show');
+</script>
+</body>
+</html>
